@@ -29,7 +29,20 @@ void generate_python_node(QString workspace_path, QString package_name, QString 
 
     QString content = QString(R"(#!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
-"""%1 node definition."""
+# Copyright (c) %3 SoftBank Corp.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""%2 node definition."""
 
 import rclpy
 from rclpy.node import Node
@@ -38,6 +51,7 @@ from std_msgs.msg import String
 
 
 class %2(Node):
+    """%2 node."""
 
     def __init__(self) -> None:
         """Constructor."""
@@ -45,8 +59,12 @@ class %2(Node):
         self.get_logger().info("Hello world from the Python node %1")
 
 
-def main(args=None) -> None:
-    """Run node."""
+def main(args: list | None = None) -> None:
+    """Run node.
+
+    Args:
+        args (list, optional): Command line arguments. Defaults to None.
+    """
     rclpy.init(args=args)
 
     %1 = %2()
@@ -62,7 +80,7 @@ def main(args=None) -> None:
 
 if __name__ == '__main__':
     main()
-)").arg(node_name, to_camel_case(node_name));;
+)").arg(node_name, to_camel_case(node_name)).arg(get_current_year());
 
     create_directory(node_dir);
     write_file(node_path, content);
@@ -107,7 +125,22 @@ void add_py_node_to_cmake(QString c_make_file_path, QString package_name, QStrin
 
 
 void generate_cpp_node(QString package_path, QString node_name){
-    QString content = QString(R"(#include "rclcpp/rclcpp.hpp"
+    QString content = QString(R"(/*********************************************************************
+ * Copyright (c) %3, SoftBank Corp.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ********************************************************************/
+#include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
 
 class %2 : public rclcpp::Node
@@ -126,6 +159,6 @@ int main(int argc, char * argv[])
   rclcpp::spin(std::make_shared<%2>());
   rclcpp::shutdown();
   return 0;
-})").arg(node_name, to_camel_case(node_name));
+})").arg(node_name, to_camel_case(node_name)).arg(get_current_year());
     write_file(QDir(package_path).filePath("src/" + node_name + ".cpp"), content);
 }
