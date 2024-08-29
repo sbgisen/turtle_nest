@@ -46,10 +46,14 @@ void generate_launch_file(QString workspace_path, QString package_name, QString 
 
 QString generate_launch_text(QString package_name, QString node_name_cpp, QString node_name_python){
     std::ostringstream oss;
-    oss << R"(from launch import LaunchDescription
+    oss << R"(#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+"""Launch file."""
+
+from launch import LaunchDescription
 from launch_ros.actions import Node
 
-def generate_launch_description():
+def generate_launch_description() -> LaunchDescription:
     return LaunchDescription([)";
 
     if (!node_name_cpp.isEmpty())

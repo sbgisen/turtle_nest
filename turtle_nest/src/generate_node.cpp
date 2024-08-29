@@ -28,6 +28,9 @@ void generate_python_node(QString workspace_path, QString package_name, QString 
     QString node_path = QDir(node_dir).filePath(node_name + ".py");
 
     QString content = QString(R"(#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+"""%1 node definition."""
+
 import rclpy
 from rclpy.node import Node
 
@@ -36,12 +39,14 @@ from std_msgs.msg import String
 
 class %2(Node):
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Constructor."""
         super().__init__("%1")
         self.get_logger().info("Hello world from the Python node %1")
 
 
-def main(args=None):
+def main(args=None) -> None:
+    """Run node."""
     rclpy.init(args=args)
 
     %1 = %2()
