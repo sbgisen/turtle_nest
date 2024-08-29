@@ -54,8 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Page 3
     ui->invalidEmailLabel->setVisible(false);
-    ui->maintainerEdit->setText(settings.value("maintainer_name", "").toString());
-    ui->emailEdit->setText(settings.value("maintainer_email", "").toString());
+    ui->maintainerEdit->setText(settings.value("maintainer_name", "SoftBank Corp.").toString());
+    ui->emailEdit->setText(settings.value("maintainer_email", "SBGRP-git@g.softbank.co.jp").toString());
 }
 
 
