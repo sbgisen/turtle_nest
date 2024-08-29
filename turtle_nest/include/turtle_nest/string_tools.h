@@ -13,19 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ------------------------------------------------------------------
-*/
+ */
 
 #ifndef STRING_TOOLS_H
 #define STRING_TOOLS_H
 
 #include <QString>
 #include <QLineEdit>
+#include <ctime>
 
 QString escape_xml(QString input);
 bool is_valid_alphanumeric(QString string);
+int get_current_year();
 QString autocorrect_line_edit(QString text, QLineEdit* line_edit);
 QString autocorrect_string(QString string);
 bool is_valid_email(QString email);
 QString to_camel_case(const QString& snake_case);
 
-#endif // STRING_TOOLS_H
+#endif  // STRING_TOOLS_H
