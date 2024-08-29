@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->createPackageButton->setVisible(false);
     ui->backButton->setVisible(false);
     QSettings settings("TurtleNest", "TurtleNest");
-    auto default_workspace_path = QDir::homePath() + "/ros2_ws/src/";
+    auto default_workspace_path = QDir::homePath() + "/ros/src/";
     ui->workspacePathEdit->setText(settings.value("workspace", default_workspace_path).toString());
     ui->packageNameShortWarn->setVisible(false);
     ui->packageNameEdit->setFocus();

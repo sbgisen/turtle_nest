@@ -94,7 +94,7 @@ QString read_xml_tag(const QString &filePath, const QString &tagName, const QStr
 
 QString get_tmp_workspace_path(){
     QTemporaryDir temp_dir;
-    return temp_dir.path() + "/ros2_ws/src";
+    return temp_dir.path() + "/ros/src";
 }
 
 bool dir_is_empty(const QString& dirPath) {
@@ -121,7 +121,7 @@ TEST(ros_pkg_creator, create_pkg_defaults){
 // Test the package creation with all the parameters
 TEST(ros_pkg_creator, create_pkg_all_values){
     QTemporaryDir temp_dir;
-    QString workspace_path = temp_dir.path() + "/ros2_ws";
+    QString workspace_path = temp_dir.path() + "/ros";
     QString package_path = workspace_path + "/src/package_name";
     QString xml_path = package_path + "/package.xml";
     RosPkgCreator pkg_creator(workspace_path + "/src", "package_name", CPP_AND_PYTHON);
@@ -245,5 +245,3 @@ TEST(ros_pkg_creator, cpp_python_with_both_nodes){
         "Hello world from the Python node python_node"
         ));
 }
-
-
