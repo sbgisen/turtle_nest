@@ -142,8 +142,8 @@ void generate_cpp_header(QString package_path, QString package_name, QString nod
 #ifndef %2_%3_HPP_
 #define %2_%3_HPP_
 
-#include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
+#include <rclcpp/rclcpp.hpp>
+#include <std_msgs/msg/string.hpp>
 
 namespace %4
 
