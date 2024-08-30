@@ -200,7 +200,7 @@ namespace %4
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<%2>());
+  rclcpp::spin(std::make_shared<%4::%2>());
   rclcpp::shutdown();
   return 0;
 })").arg(node_name, to_camel_case(node_name)).arg(get_current_year())
