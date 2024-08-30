@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ------------------------------------------------------------------
-*/
+ */
 
 #include "turtle_nest/generate_node.h"
 #include "turtle_nest/file_utils.h"
@@ -123,8 +123,53 @@ void add_py_node_to_cmake(QString c_make_file_path, QString package_name, QStrin
     append_to_file_before(c_make_file_path, content, "ament_package()");
 }
 
+void generate_cpp_header(QString package_path, QString package_name, QString node_name) {
+    QString header_content = QString(R"(/*********************************************************************
+ * Copyright (c) %1, SoftBank Corp.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ********************************************************************/
+#ifndef %2_%3_HPP_
+#define %2_%3_HPP_
 
-void generate_cpp_node(QString package_path, QString node_name){
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/string.hpp"
+
+namespace %4
+
+{
+
+class %5 : public rclcpp::Node
+{
+public:
+  %5();
+
+private:
+  // Private members and methods can be added here
+};
+
+}  // namespace %4
+
+#endif  // %2_%3_HPP_
+)").arg(get_current_year()).arg(package_name.toUpper(), node_name.toUpper()).arg(package_name).arg(to_camel_case(node_name));
+   write_file(QDir(package_path).filePath("include/" + package_name + "/" + node_name + ".hpp"), header_content);
+}
+
+void generate_cpp_node(QString package_path, QString node_name) {
+    QString package_name = QFileInfo(QDir(package_path).path()).fileName();
+    // Generate header file first
+    generate_cpp_header(package_path, package_name, node_name);
+
     QString content = QString(R"(/*********************************************************************
  * Copyright (c) %3, SoftBank Corp.
  *
@@ -140,18 +185,17 @@ void generate_cpp_node(QString package_path, QString node_name){
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ********************************************************************/
-#include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
+#include "%4/%5.hpp"
 
-class %2 : public rclcpp::Node
+namespace %4
 {
-  public:
-    %2()
-    : Node("%1")
-    {
-      RCLCPP_INFO(this->get_logger(), "Hello world from the C++ node %s", "%1");
-    }
-};
+
+%2::%2() : Node("%1")
+{
+  RCLCPP_INFO(this->get_logger(), "Hello world from the C++ node %s", "%1");
+}
+
+}  // namespace %4
 
 int main(int argc, char * argv[])
 {
@@ -159,6 +203,8 @@ int main(int argc, char * argv[])
   rclcpp::spin(std::make_shared<%2>());
   rclcpp::shutdown();
   return 0;
-})").arg(node_name, to_camel_case(node_name)).arg(get_current_year());
+})").arg(node_name, to_camel_case(node_name)).arg(get_current_year())
+  .arg(package_name, node_name);
+
     write_file(QDir(package_path).filePath("src/" + node_name + ".cpp"), content);
 }

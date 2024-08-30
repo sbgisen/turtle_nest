@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ------------------------------------------------------------------
-*/
+ */
 
 #include "turtle_nest/rospkgcreator.h"
 #include "turtle_nest/file_utils.h"
@@ -131,7 +131,7 @@ void RosPkgCreator::build_package() const{
     QDir dir(workspace_path);
     dir.cdUp();  // Get the path without /src extension to build in that location
 
-    QProcess builder;    
+    QProcess builder;
     builder.setProcessChannelMode(QProcess::MergedChannels);
     builder.setWorkingDirectory(dir.path());
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ------------------------------------------------------------------
-*/
+ */
 
 #ifndef GENERATE_NODE_H
 #define GENERATE_NODE_H
@@ -24,6 +24,7 @@ void generate_python_node(QString workspace_path, QString package_name, QString 
 void create_init_file(QString node_dir);
 void add_py_node_to_cmake(QString c_make_file_path, QString package_name, QString node_name);
 void add_exec_permissions(QString node_path);
+void generate_cpp_header(QString package_path, QString node_name);
 void generate_cpp_node(QString package_path, QString node_name);
 
-#endif // GENERATE_NODE_H
+#endif  // GENERATE_NODE_H
