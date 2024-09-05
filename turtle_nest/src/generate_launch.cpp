@@ -16,7 +16,7 @@
 */
 
 #include "turtle_nest/generate_launch.h"
-
+#include "turtle_nest/string_tools.h"
 #include "turtle_nest/file_utils.h"
 #include <QFile>
 #include <QFileDialog>
@@ -46,11 +46,38 @@ void generate_launch_file(QString workspace_path, QString package_name, QString 
 
 QString generate_launch_text(QString package_name, QString node_name_cpp, QString node_name_python){
     std::ostringstream oss;
-    oss << R"(from launch import LaunchDescription
+
+    QString license_text = QString(R"(#!/usr/bin/env python3
+# -*- encoding: utf-8 -*-
+# Copyright (c) %1 SoftBank Corp.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""Launch file."""
+
+from launch import LaunchDescription
 from launch_ros.actions import Node
 
-def generate_launch_description():
-    return LaunchDescription([)";
+
+def generate_launch_description() -> LaunchDescription:
+    """Generate launch description.
+
+    Returns:
+        LaunchDescription: Launch description.
+    """
+    return LaunchDescription([)").arg(get_current_year());
+
+    // Use a string stream to construct the rest of the launch text.
+    oss << license_text.toStdString();
 
     if (!node_name_cpp.isEmpty())
     oss << R"(

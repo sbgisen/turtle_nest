@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ------------------------------------------------------------------
-*/
+ */
 
 #include "turtle_nest/string_tools.h"
 
@@ -49,6 +49,13 @@ bool is_valid_alphanumeric(QString string){
     return valid_input.match(string).hasMatch();
 }
 
+// Get the current year for the license info
+int get_current_year() {
+    std::time_t t = std::time(nullptr);
+    std::tm* tm = std::localtime(&t);
+    return 1900 + tm->tm_year;
+}
+
 QString autocorrect_line_edit(QString text, QLineEdit* line_edit){
     int cursor_pos = line_edit->cursorPosition();
     QString autocorrected_text = autocorrect_string(text);
@@ -68,7 +75,6 @@ QString autocorrect_string(QString string){
     static const QRegularExpression invalid_characters("[^a-z0-9_]");
     return string.toLower().replace(" ", "_").remove(invalid_characters);
 }
-
 
 QString to_camel_case(const QString& snake_case) {
     QStringList words = snake_case.split('_');

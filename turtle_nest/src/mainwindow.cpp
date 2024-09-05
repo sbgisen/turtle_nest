@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->createPackageButton->setVisible(false);
     ui->backButton->setVisible(false);
     QSettings settings("TurtleNest", "TurtleNest");
-    auto default_workspace_path = QDir::homePath() + "/ros2_ws/src/";
+    auto default_workspace_path = QDir::homePath() + "/ros/src/";
     ui->workspacePathEdit->setText(settings.value("workspace", default_workspace_path).toString());
     ui->packageNameShortWarn->setVisible(false);
     ui->packageNameEdit->setFocus();
@@ -54,8 +54,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Page 3
     ui->invalidEmailLabel->setVisible(false);
-    ui->maintainerEdit->setText(settings.value("maintainer_name", "").toString());
-    ui->emailEdit->setText(settings.value("maintainer_email", "").toString());
+    ui->maintainerEdit->setText(settings.value("maintainer_name", "SoftBank Corp.").toString());
+    ui->emailEdit->setText(settings.value("maintainer_email", "SBGRP-git@g.softbank.co.jp").toString());
 }
 
 
