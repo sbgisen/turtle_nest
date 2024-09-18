@@ -28,7 +28,7 @@ void generate_python_node(QString workspace_path, QString package_name, QString 
     QString node_path = QDir(node_dir).filePath(node_name + ".py");
 
     QString content = QString(R"(#!/usr/bin/env python3
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # Copyright (c) %3 SoftBank Corp.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
